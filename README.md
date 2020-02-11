@@ -1,7 +1,3 @@
-This is a mirror of http://www.vim.org/scripts/script.php?script_id=732
-
-Required: Vim 6.2
-
 Usage:
         :call FoldDigest()
 
@@ -15,6 +11,10 @@ Usage:
     when depended buffer is availabeled, it will be synchronized
     automatically.  If you want to force synchronize, type "r" in a
     FOLDDIGEST buffer.
+
+        :call FoldDigestToggle()
+
+    Toggle FoldDigest on or off.
 
 Options:
 
@@ -37,3 +37,13 @@ Options:
     ex:
         :let folddigest_options = "vertical,flexnumwidth"
         :let folddigest_size = 30
+
+Requirements:
+
+    Vim 6.2
+
+Credits:
+
+  This is a fork of https://github.com/vim-scripts/folddigest.vim
+  Which in turn is a mirror of http://www.vim.org/scripts/script.php?script_id=732
+

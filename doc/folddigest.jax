@@ -1,0 +1,36 @@
+" JAPANESE DESCRIPTION:
+"
+" Tv:
+"   foldÌ_CWFXgð\¦µÜ·B
+"
+" g¢û:
+"	:call FoldDigest()
+"
+"   Jgobt@àÉ éfoldÌ_CWFXgðAÊobt@Öì¬µÜ·B±
+"   Ìobt@ðFOLDDIGESTÆÄÑÜ·BFOLDDIGESTÉÍSÄÌfoldÌJnÊuª\
+"   ¦³êé¾¯ÅÈ­AfoldÌKwÖWÉîÃ¢½c[ª\¦³êÜ·B
+"
+"   FOLDDIGESTàÅÍÊÉJ[\ð®©·±ÆªÅ«A<CR>ð·ÆJ[\Ì
+"   ºÉ éfoldÖòÔ±ÆªÅ«Ü·BJ[\ðÊEBhE©çFOLDDIGESTÖ
+"   Ú·ÆA^[Qbgobt@ªLøÈêÉÍ©®IÉ¯úªæçêÜ·BÜ½
+"   FOLDDIGESTÅrð·Æ­§IÉ¯úðæé±ÆªÅ«Ü·B
+"
+" IvV:
+"
+"   'folddigest_options'
+"		string (Èªl  "")
+"	ÈºÌ¶ñÌ¤¿KvÈàÌð­B¡ðwè·éêÍJ}ÅæØ
+"	éB
+"
+"	  flexnumwidth	sÔÌðKvÅ¬ÀÉ·é
+"	  nofoldclose	:call FoldDigest()ÌãÉAfoldðÂ¶È¢
+"	  vertical	obt@ðcª·é
+"
+"   'folddigest_size'
+"		number (Èªl 0)
+"	FOLDDIGESTobt@ðJ­ÄÌå«³ðÝè·éB'folddigest_options'É
+"	"vertical"ªÜÜêÄ¢éêÍ³ÆµÄAÜÜêÄ¢È¢êÍÆµ
+"	Äðß³êéB0ðwèµ½ÉÍJgEBhEÌ¼ªÉÈéB
+"
+"   á: let folddigest_options = "vertical,flexnumwidth"
+

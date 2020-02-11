@@ -5,77 +5,6 @@
 " Maintainer:	MURAOKA Taro <koron@tka.att.ne.jp>
 " Last Change:	14-Aug-2003.
 
-" Usage:
-"	:call FoldDigest()
-"
-"   Transform all folds in the current buffer into digest tree form, and
-"   show it in another buffer.  The buffer is called FOLDDIGEST.  It shows
-"   not only all fold start positions, but also a tree depended on original
-"   folds hierarchy.
-"
-"   In a FOLDDIGEST, you can move around the cursor, and when type <CR> jump
-"   to fold at under it.  If you enter FOLDDIGEST window from other windows,
-"   when depended buffer is availabeled, it will be synchronized
-"   automatically.  If you want to force synchronize, type "r" in a
-"   FOLDDIGEST buffer.
-"
-" Options:
-"
-"   'folddigest_options'
-"		string (default "")
-"	Set string flag which you need.  If you want to use more than two,
-"	join by comma.
-"
-"	  flexnumwidth	Narrow line number width as possible.
-"	  nofoldclose	don't close folds after ":call FoldDigest()".
-"	  vertical	Use :vsplit for FOLDDIGEST. (default :split)
-"
-"   'folddigest_size'
-"		number (default 0)
-"	FOLDDIGEST window size.  When 'folddigest_options' has "vertical"
-"	flag, this value is interpretted as window height, and doesn't then
-"	as window width.  If zero was specified height/width become half of
-"	current window.
-"
-"   ex:
-"	:let folddigest_options = "vertical,flexnumwidth"
-"	:let folddigest_size = 30
-
-" JAPANESE DESCRIPTION:
-"
-" 概要:
-"   foldのダイジェストを表示します。
-"
-" 使い方:
-"	:call FoldDigest()
-"
-"   カレントバッファ内にあるfoldのダイジェストを、別バッファへ作成します。こ
-"   のバッファをFOLDDIGESTと呼びます。FOLDDIGESTには全てのfoldの開始位置が表
-"   示されるだけでなく、foldの階層関係に基づいたツリーが表示されます。
-"
-"   FOLDDIGEST内では普通にカーソルを動かすことができ、<CR>を押すとカーソルの
-"   下にあるfoldへ飛ぶことができます。カーソルを別ウィンドウからFOLDDIGESTへ
-"   移すと、ターゲットバッファが有効な場合には自動的に同期が取られます。また
-"   FOLDDIGESTでrを押すと強制的に同期を取ることができます。
-"
-" オプション:
-"
-"   'folddigest_options'
-"		string (省略値  "")
-"	以下の文字列のうち必要なものを書く。複数を指定する場合はカンマで区切
-"	る。
-"
-"	  flexnumwidth	行番号の桁数を必要最小限にする
-"	  nofoldclose	:call FoldDigest()の後に、foldを閉じない
-"	  vertical	バッファを縦分割する
-"
-"   'folddigest_size'
-"		number (省略値 0)
-"	FOLDDIGESTバッファを開く再の大きさを設定する。'folddigest_options'に
-"	"vertical"が含まれている場合は高さとして、含まれていない場合は幅とし
-"	て解釈される。0を指定した時にはカレントウィンドウの半分になる。
-"
-"   例: let folddigest_options = "vertical,flexnumwidth"
 
 function! s:HasFlag(flags, flag)
   return a:flags =~ '\%(^\|,\)'.a:flag.'\%(=\([^,]*\)\)\?\%(,\|$\)'
@@ -103,7 +32,7 @@ function! s:MarkMasterWindow()
 endfunction
 
 function! s:GoMasterWindow(...)
-  let flags = a:0 > 0 ? a:1 : ""
+  let flags = a:0 > 0 ? a:1 : ''
   let winnr = 1
   while 1
     let bufnr = winbufnr(winnr)
@@ -130,14 +59,14 @@ function! s:GoMasterWindow(...)
       else
 	let size = ''
       endif
-      silent execute "rightbelow ".size." vsplit ".bufname
+      silent execute 'rightbelow '.size.' vsplit '.bufname
     else
       if 0 < s:digest_size && s:digest_size < winheight(0)
 	let size = winheight(0) - s:digest_size
       else
 	let size = ''
       endif
-      silent execute "rightbelow ".size." split ".bufname
+      silent execute 'rightbelow '.size.' split '.bufname
     endif
     call s:MarkMasterWindow()
     return winnr()
@@ -152,7 +81,7 @@ function! s:Jump()
   let line = getline(linenr)
   if line !~ mx
     echohl Error
-    echo "Format error has been detected"
+    echo 'Format error has been detected'
     echohl None
     return
   endif
@@ -194,19 +123,21 @@ function! s:MakeDigestBuffer()
   let bufnum = bufnr('%')
   let bufname = expand('%:p')
   call s:MarkMasterWindow()
-  let name = "==FOLDDIGEST== ".expand('%:t')." [".bufnum."]"
+  let name = '==FOLDDIGEST== '.expand('%:t').' ['.bufnum.']'
   let winnr = bufwinnr(name)
   let s:do_auto_refresh = 0
   if winnr < 1
-    let size = s:digest_size > 0 ? s:digest_size : ""
+    let size = s:digest_size > 0 ? s:digest_size : ''
     if s:use_vertical
-      silent execute size." vsplit ++enc= ".escape(name, ' ')
+      silent execute size.' vsplit ++enc= '.escape(name, ' ')
     else
-      silent execute size." split ++enc= ".escape(name, ' ')
+      silent execute size.' split ++enc= '.escape(name, ' ')
     endif
+    let g:folddigest_buf = bufnr()
   else
     execute winnr.'wincmd w'
   endif
+
   let s:do_auto_refresh = 1
   setlocal buftype=nofile bufhidden=hide noswapfile nowrap ft=
   setlocal foldcolumn=0 nonumber
@@ -328,12 +259,12 @@ function! FoldDigest()
   endif
   " Keep same cursor position as possible
   if save_winline > winline()
-    execute "normal! ".(save_winline - winline())."\<C-Y>"
+    execute 'normal! '.(save_winline - winline()).'\<C-Y>'
   elseif save_winline < winline()
-    execute "normal! ".(winline() - save_winline)."\<C-E>"
+    execute 'normal! '.(winline() - save_winline).'\<C-E>'
   endif
   call s:MakeDigestBuffer()
-  echo "currfold=".currfold
+  echo 'currfold='.currfold
   if 0 < currfold && currfold <= line('$')
     execute currfold
     call s:IndicateRawline(currfold)
@@ -345,6 +276,35 @@ function! FoldDigest()
   call setreg('a', save_regcont_a, save_regtype_a)
   " Revert undolevels
   let &undolevels = save_undolevels
+endfunction
+
+function! FoldDigestIsOpen() abort
+  if ! exists('g:folddigest_buf')
+    return v:false
+  endif
+
+  let l:buf = getbufinfo(g:folddigest_buf)
+  if l:buf[0].loaded == 1 && l:buf[0].listed == 1
+    return v:true
+  endif
+
+  return v:false
+endfunction
+
+function! FoldDigestClose() abort
+  if ! exists('g:folddigest_buf')
+    return
+  endif
+
+  execute printf('%sbdelete', g:folddigest_buf)
+endfunction
+
+function! FoldDigestToggle() abort
+  if FoldDigestIsOpen()
+    call FoldDigestClose()
+  else
+    call FoldDigest()
+  endif
 endfunction
 
 augroup FoldDigest
